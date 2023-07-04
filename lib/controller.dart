@@ -1,15 +1,13 @@
-/*import 'dart:convert';
-
+import 'dart:async';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:newapp/information.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'loginpage.dart';
-
-class control extends StatelessWidget
-{
-    void _showAlertDialog(BuildContext context, String stat, String prob) {
+class control {
+  void _showAlertDialog(BuildContext context, String stat, String prob) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -27,59 +25,49 @@ class control extends StatelessWidget
                 Text(stat),
                 if (stat == 'Đăng nhập Thất bại !!!') Text(prob)
               ],
-            )
-            );
+            ));
       },
     );
   }
 
-  void login(String n, String p, BuildContext context) async {
-    //Response capcha = await
-    //Capcha();
-    setState(() {
-      Capcha();
-    });
+  void login(TextEditingController n, TextEditingController p,
+      BuildContext context) async {
+    var _data;
     try {
       Response res = await post(
         Uri.parse(
             'http://lms-school-node1.vnpt.edu.vn/service/security/loginJWT'),
-        body: {'email': n, 'password': md5.convert(utf8.encode(p)).toString()},
+        body: {
+          'email': n.text,
+          'password': md5.convert(utf8.encode(p.text)).toString()
+        },
       );
-      // print(res.statusCode);
       if (res.statusCode == 200) {
-        data = json.decode(res.body.toString());
-        //print(data);
-        //print(data['success']);
-        if (data['success'] == false) {
-          //print('Dang nhap that bai !!!');
-          _showAlertDialog(context, "Đăng nhập Thất bại !!!", data['msg']);
-          name.text = '';
-          pass.text = '';
+        _data = json.decode(res.body.toString());
+        if (_data['success'] == false) {
+          _showAlertDialog(context, "Đăng nhập Thất bại !!!", _data['msg']);
+          n.text = '';
+          p.text = '';
         } else {
-          //print('Dang nhap thanh cong !!!');
           _showAlertDialog(context, "Đăng nhập Thành công !!!", "");
-          name.text = '';
-          pass.text = '';
+          n.text = '';
+          p.text = '';
           SharedPreferences pref = await SharedPreferences.getInstance();
-          await pref.setString('datatoken', data['data']['token']);
-          //print(data['data']['token']);
-          print(data['data']['token']);
-          info(data['data']['token']);
-          /*  Navigator.push(context,
-            MaterialPageRoute(builder: (context) => InfoPage(tk: data['data']['token'])));*/
+          await pref.setString('datatoken', _data['data']['token']);
+          info(_data['data']['token'], context);
         }
       } else {
         print('Extract Token: Failed');
 
-        data = json.decode(res.body.toString());
-        //print(data);
+        _data = json.decode(res.body.toString());
       }
     } catch (e) {
       print('From get Token: ' + e.toString());
     }
   }
 
-  void info(var tk) async {
+  void info(var tk, BuildContext context) async {
+    var _dulieu;
     try {
       Response res = await post(
           Uri.parse(
@@ -88,28 +76,19 @@ class control extends StatelessWidget
           body: {});
 
       if (res.statusCode == 200) {
-        dulieu = jsonDecode(res.body.toString());
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => InfoPage()));
+        _dulieu = jsonDecode(res.body.toString());
+        Timer(
+            Duration(seconds: 1),
+            () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => InfoPage(
+                          dulieu: _dulieu,
+                        ))));
       } else
         print('Extract Info: Failed');
     } catch (e) {
       print('From Gen INF: ' + e.toString());
     }
   }
-
-  Future<void> Capcha() async {
-    Response res = await post(
-      Uri.parse(
-          'http://lms-school-node1.vnpt.edu.vn/test/resetCaptcha?key=c373d05adf87625818d1a478b59975f93ff9c95544910f1b2863a5899882b53f&captchaKey=loginForm'),
-      body: {},
-    );
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
 }
-*/
