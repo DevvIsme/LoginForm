@@ -16,7 +16,6 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> loaddata(BuildContext context) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     tt = (await pref.getString('datatoken'))!;
-    print('TT: $tt');
     if (tt == "") {
       Timer(
           Duration(seconds: 2),
