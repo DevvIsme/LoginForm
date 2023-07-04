@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:newapp/constrants.dart';
 
 class appbar extends StatelessWidget {
   const appbar({
@@ -21,7 +21,7 @@ class appbar extends StatelessWidget {
             'TRƯỜNG THPT CÔNG NGHỆ THÔNG TIN VNPT',
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
-            style: TextStyle(fontSize: 15, color: Color(0xFF141933)),
+            style: TextStyle(fontSize: 15, color: Colors.black),
           ),
         )
       ],
