@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newapp/constrants.dart';
 
 class forgetpass extends StatelessWidget {
   const forgetpass({
@@ -15,10 +16,9 @@ class forgetpass extends StatelessWidget {
             child: Text('Quên mật khẩu?',
                 style: TextStyle(
                     fontSize: 14,
-                    color: Color(0xFF005FD0),
+                    color: constyle.mauxanh,
                     fontWeight: FontWeight.bold)))
       ],
     );
   }
 }
-

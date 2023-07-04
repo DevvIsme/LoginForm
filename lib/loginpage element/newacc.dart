@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newapp/constrants.dart';
 
 class newacc extends StatelessWidget {
   const newacc({
@@ -8,7 +9,6 @@ class newacc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      //mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text('Chưa có tài khoản?'),
@@ -18,7 +18,7 @@ class newacc extends StatelessWidget {
               'Tạo tài khoản',
               style: TextStyle(
                   fontSize: 14,
-                  color: Color(0xFF005FD0),
+                  color: constyle.mauxanh,
                   fontWeight: FontWeight.bold),
             ))
       ],
